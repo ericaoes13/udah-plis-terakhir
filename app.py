@@ -41,3 +41,15 @@ if invoice_file and ticket_file:
     # Menampilkan tabel hasil rekonsiliasi
     st.subheader("Hasil Perbandingan Invoice dan Ticket Summary")
     st.dataframe(merged_data_corrected)
+
+    # Menambahkan grafik perbandingan Match vs Tidak Match
+    match_counts = merged_data_corrected['Match Status'].value_counts().reset_index()
+    match_counts.columns = ['Match Status', 'Jumlah']
+
+    # Membuat pie chart untuk perbandingan
+    fig = px.pie(match_counts, values='Jumlah', names='Match Status', title="Perbandingan Match vs Tidak Match")
+    st.plotly_chart(fig)
+
+    # Menambahkan grafik batang (bar chart) untuk visualisasi yang lebih jelas
+    fig2 = px.bar(match_counts, x='Match Status', y='Jumlah', title="Jumlah Match vs Tidak Match")
+    st.plotly_chart(fig2)
